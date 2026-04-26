@@ -72,6 +72,13 @@ h2 {
     padding: 18px;
     border-radius: 10px;
     border: 1px solid #334155;
+    transition: 0.2s;
+}
+
+.product:hover {
+    transform: translateY(-5px);
+    border-color: #38bdf8;
+    box-shadow: 0 6px 18px rgba(56, 189, 248, 0.18);
 }
 
 .product h3 {
@@ -364,7 +371,16 @@ footer {
 </div>
 
 <footer>
-    © 2026 EA Control Tech. All rights reserved.
+    <p id="lastUpdate"></p>
+
+    <p>
+        Visitors:
+        <a href="https://www.hitwebcounter.com/character-counter" target="_blank">
+        <img src="https://hitwebcounter.com/counter/counter.php?page=21492364&style=0009&nbdigits=9&type=page&initCount=0" style="border:0;" />
+        </a>
+    </p>
+
+    <p>© 2026 EA Control Tech. All rights reserved.</p>
 </footer>
 
 <script>
@@ -372,6 +388,9 @@ function changeImage(imageId, linkId, newSrc) {
     document.getElementById(imageId).src = newSrc;
     document.getElementById(linkId).href = newSrc;
 }
+
+document.getElementById("lastUpdate").innerText =
+    "Last updated: " + document.lastModified;
 </script>
 
 </body>
