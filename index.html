@@ -94,6 +94,13 @@ h2 {
     border-radius: 8px;
     padding: 8px;
     margin-bottom: 10px;
+    cursor: zoom-in;
+    transition: 0.2s;
+}
+
+.main-product-img:hover {
+    opacity: 0.85;
+    transform: scale(1.01);
 }
 
 .thumb-gallery {
@@ -173,20 +180,22 @@ footer {
             <div class="product">
                 <h3>STM32F407 CPU Board</h3>
 
-                <img id="img_stm32" class="main-product-img"
-                     src="STM32F407_CPU_Board.jpg"
-                     alt="STM32F407 CPU Board">
+                <a id="link_stm32" href="STM32F407_CPU_Board.jpg" target="_blank">
+                    <img id="img_stm32" class="main-product-img"
+                         src="STM32F407_CPU_Board.jpg"
+                         alt="STM32F407 CPU Board">
+                </a>
 
                 <div class="thumb-gallery">
-                    <img src="STM32F407_CPU_Board.jpg" onclick="changeImage('img_stm32', this.src)">
-                    <img src="STM32F407_CPU_Board_1.jpeg" onclick="changeImage('img_stm32', this.src)">
-                    <img src="STM32F407_CPU_Board_2.jpeg" onclick="changeImage('img_stm32', this.src)">
-                    <img src="STM32F407_CPU_Board_3.jpeg" onclick="changeImage('img_stm32', this.src)">
-                    <img src="STM32F407_CPU_Board_4.jpeg" onclick="changeImage('img_stm32', this.src)">
-                    <img src="STM32F407_CPU_Board_5.jpeg" onclick="changeImage('img_stm32', this.src)">
-                    <img src="STM32F407_CPU_Board_6.jpeg" onclick="changeImage('img_stm32', this.src)">
-                    <img src="STM32F407_CPU_Board_7.jpeg" onclick="changeImage('img_stm32', this.src)">
-                    <img src="STM32F407_CPU_Board_8.jpeg" onclick="changeImage('img_stm32', this.src)">
+                    <img src="STM32F407_CPU_Board.jpg" onclick="changeImage('img_stm32', 'link_stm32', this.src)">
+                    <img src="STM32F407_CPU_Board_1.jpeg" onclick="changeImage('img_stm32', 'link_stm32', this.src)">
+                    <img src="STM32F407_CPU_Board_2.jpeg" onclick="changeImage('img_stm32', 'link_stm32', this.src)">
+                    <img src="STM32F407_CPU_Board_3.jpeg" onclick="changeImage('img_stm32', 'link_stm32', this.src)">
+                    <img src="STM32F407_CPU_Board_4.jpeg" onclick="changeImage('img_stm32', 'link_stm32', this.src)">
+                    <img src="STM32F407_CPU_Board_5.jpeg" onclick="changeImage('img_stm32', 'link_stm32', this.src)">
+                    <img src="STM32F407_CPU_Board_6.jpeg" onclick="changeImage('img_stm32', 'link_stm32', this.src)">
+                    <img src="STM32F407_CPU_Board_7.jpeg" onclick="changeImage('img_stm32', 'link_stm32', this.src)">
+                    <img src="STM32F407_CPU_Board_8.jpeg" onclick="changeImage('img_stm32', 'link_stm32', this.src)">
                 </div>
 
                 <p>
@@ -199,20 +208,22 @@ footer {
             <div class="product">
                 <h3>16 DI Board (MCP23017)</h3>
 
-                <img id="img_16di" class="main-product-img"
-                     src="16_DI_MCP23017.jpeg"
-                     alt="16 DI Board MCP23017">
+                <a id="link_16di" href="16_DI_MCP23017.jpeg" target="_blank">
+                    <img id="img_16di" class="main-product-img"
+                         src="16_DI_MCP23017.jpeg"
+                         alt="16 DI Board MCP23017">
+                </a>
 
                 <div class="thumb-gallery">
-                    <img src="16_DI_MCP23017.jpeg" onclick="changeImage('img_16di', this.src)">
-                    <img src="16_DI_MCP23017_1.jpeg" onclick="changeImage('img_16di', this.src)">
-                    <img src="16_DI_MCP23017_2.jpeg" onclick="changeImage('img_16di', this.src)">
-                    <img src="16_DI_MCP23017_3.jpeg" onclick="changeImage('img_16di', this.src)">
-                    <img src="16_DI_MCP23017_4.jpeg" onclick="changeImage('img_16di', this.src)">
-                    <img src="16_DI_MCP23017_5.jpeg" onclick="changeImage('img_16di', this.src)">
-                    <img src="16_DI_MCP23017_6.jpeg" onclick="changeImage('img_16di', this.src)">
-                    <img src="16_DI_MCP23017_7.jpeg" onclick="changeImage('img_16di', this.src)">
-                    <img src="16_DI_MCP23017_8.jpeg" onclick="changeImage('img_16di', this.src)">
+                    <img src="16_DI_MCP23017.jpeg" onclick="changeImage('img_16di', 'link_16di', this.src)">
+                    <img src="16_DI_MCP23017_1.jpeg" onclick="changeImage('img_16di', 'link_16di', this.src)">
+                    <img src="16_DI_MCP23017_2.jpeg" onclick="changeImage('img_16di', 'link_16di', this.src)">
+                    <img src="16_DI_MCP23017_3.jpeg" onclick="changeImage('img_16di', 'link_16di', this.src)">
+                    <img src="16_DI_MCP23017_4.jpeg" onclick="changeImage('img_16di', 'link_16di', this.src)">
+                    <img src="16_DI_MCP23017_5.jpeg" onclick="changeImage('img_16di', 'link_16di', this.src)">
+                    <img src="16_DI_MCP23017_6.jpeg" onclick="changeImage('img_16di', 'link_16di', this.src)">
+                    <img src="16_DI_MCP23017_7.jpeg" onclick="changeImage('img_16di', 'link_16di', this.src)">
+                    <img src="16_DI_MCP23017_8.jpeg" onclick="changeImage('img_16di', 'link_16di', this.src)">
                 </div>
 
                 <p>
@@ -225,20 +236,22 @@ footer {
             <div class="product">
                 <h3>16 DO Board (MCP23017)</h3>
 
-                <img id="img_16do" class="main-product-img"
-                     src="16_DO_MCP23017.jpeg"
-                     alt="16 DO Board MCP23017">
+                <a id="link_16do" href="16_DO_MCP23017.jpeg" target="_blank">
+                    <img id="img_16do" class="main-product-img"
+                         src="16_DO_MCP23017.jpeg"
+                         alt="16 DO Board MCP23017">
+                </a>
 
                 <div class="thumb-gallery">
-                    <img src="16_DO_MCP23017.jpeg" onclick="changeImage('img_16do', this.src)">
-                    <img src="16_DO_MCP23017_1.jpeg" onclick="changeImage('img_16do', this.src)">
-                    <img src="16_DO_MCP23017_2.jpeg" onclick="changeImage('img_16do', this.src)">
-                    <img src="16_DO_MCP23017_3.jpeg" onclick="changeImage('img_16do', this.src)">
-                    <img src="16_DO_MCP23017_4.jpeg" onclick="changeImage('img_16do', this.src)">
-                    <img src="16_DO_MCP23017_5.jpeg" onclick="changeImage('img_16do', this.src)">
-                    <img src="16_DO_MCP23017_6.jpeg" onclick="changeImage('img_16do', this.src)">
-                    <img src="16_DO_MCP23017_7.jpeg" onclick="changeImage('img_16do', this.src)">
-                    <img src="16_DO_MCP23017_8.jpeg" onclick="changeImage('img_16do', this.src)">
+                    <img src="16_DO_MCP23017.jpeg" onclick="changeImage('img_16do', 'link_16do', this.src)">
+                    <img src="16_DO_MCP23017_1.jpeg" onclick="changeImage('img_16do', 'link_16do', this.src)">
+                    <img src="16_DO_MCP23017_2.jpeg" onclick="changeImage('img_16do', 'link_16do', this.src)">
+                    <img src="16_DO_MCP23017_3.jpeg" onclick="changeImage('img_16do', 'link_16do', this.src)">
+                    <img src="16_DO_MCP23017_4.jpeg" onclick="changeImage('img_16do', 'link_16do', this.src)">
+                    <img src="16_DO_MCP23017_5.jpeg" onclick="changeImage('img_16do', 'link_16do', this.src)">
+                    <img src="16_DO_MCP23017_6.jpeg" onclick="changeImage('img_16do', 'link_16do', this.src)">
+                    <img src="16_DO_MCP23017_7.jpeg" onclick="changeImage('img_16do', 'link_16do', this.src)">
+                    <img src="16_DO_MCP23017_8.jpeg" onclick="changeImage('img_16do', 'link_16do', this.src)">
                 </div>
 
                 <p>
@@ -251,20 +264,22 @@ footer {
             <div class="product">
                 <h3>8 DO Board (MCP23008)</h3>
 
-                <img id="img_8do" class="main-product-img"
-                     src="8_DO_MCP23008.jpeg"
-                     alt="8 DO Board MCP23008">
+                <a id="link_8do" href="8_DO_MCP23008.jpeg" target="_blank">
+                    <img id="img_8do" class="main-product-img"
+                         src="8_DO_MCP23008.jpeg"
+                         alt="8 DO Board MCP23008">
+                </a>
 
                 <div class="thumb-gallery">
-                    <img src="8_DO_MCP23008.jpeg" onclick="changeImage('img_8do', this.src)">
-                    <img src="8_DO_MCP23008_1.jpeg" onclick="changeImage('img_8do', this.src)">
-                    <img src="8_DO_MCP23008_2.jpeg" onclick="changeImage('img_8do', this.src)">
-                    <img src="8_DO_MCP23008_3.jpeg" onclick="changeImage('img_8do', this.src)">
-                    <img src="8_DO_MCP23008_4.jpeg" onclick="changeImage('img_8do', this.src)">
-                    <img src="8_DO_MCP23008_5.jpeg" onclick="changeImage('img_8do', this.src)">
-                    <img src="8_DO_MCP23008_6.jpeg" onclick="changeImage('img_8do', this.src)">
-                    <img src="8_DO_MCP23008_7.jpeg" onclick="changeImage('img_8do', this.src)">
-                    <img src="8_DO_MCP23008_8.jpeg" onclick="changeImage('img_8do', this.src)">
+                    <img src="8_DO_MCP23008.jpeg" onclick="changeImage('img_8do', 'link_8do', this.src)">
+                    <img src="8_DO_MCP23008_1.jpeg" onclick="changeImage('img_8do', 'link_8do', this.src)">
+                    <img src="8_DO_MCP23008_2.jpeg" onclick="changeImage('img_8do', 'link_8do', this.src)">
+                    <img src="8_DO_MCP23008_3.jpeg" onclick="changeImage('img_8do', 'link_8do', this.src)">
+                    <img src="8_DO_MCP23008_4.jpeg" onclick="changeImage('img_8do', 'link_8do', this.src)">
+                    <img src="8_DO_MCP23008_5.jpeg" onclick="changeImage('img_8do', 'link_8do', this.src)">
+                    <img src="8_DO_MCP23008_6.jpeg" onclick="changeImage('img_8do', 'link_8do', this.src)">
+                    <img src="8_DO_MCP23008_7.jpeg" onclick="changeImage('img_8do', 'link_8do', this.src)">
+                    <img src="8_DO_MCP23008_8.jpeg" onclick="changeImage('img_8do', 'link_8do', this.src)">
                 </div>
 
                 <p>
@@ -277,20 +292,22 @@ footer {
             <div class="product">
                 <h3>4 Channel Analog I/O Board (AD74412R)</h3>
 
-                <img id="img_analog" class="main-product-img"
-                     src="AD74412R_Analog_IO.jpg"
-                     alt="AD74412R Analog IO Board">
+                <a id="link_analog" href="AD74412R_Analog_IO.jpg" target="_blank">
+                    <img id="img_analog" class="main-product-img"
+                         src="AD74412R_Analog_IO.jpg"
+                         alt="AD74412R Analog IO Board">
+                </a>
 
                 <div class="thumb-gallery">
-                    <img src="AD74412R_Analog_IO.jpg" onclick="changeImage('img_analog', this.src)">
-                    <img src="AD74412R_Analog_IO_1.jpeg" onclick="changeImage('img_analog', this.src)">
-                    <img src="AD74412R_Analog_IO_2.jpeg" onclick="changeImage('img_analog', this.src)">
-                    <img src="AD74412R_Analog_IO_3.jpeg" onclick="changeImage('img_analog', this.src)">
-                    <img src="AD74412R_Analog_IO_4.jpeg" onclick="changeImage('img_analog', this.src)">
-                    <img src="AD74412R_Analog_IO_5.jpeg" onclick="changeImage('img_analog', this.src)">
-                    <img src="AD74412R_Analog_IO_6.jpeg" onclick="changeImage('img_analog', this.src)">
-                    <img src="AD74412R_Analog_IO_7.jpeg" onclick="changeImage('img_analog', this.src)">
-                    <img src="AD74412R_Analog_IO_8.jpeg" onclick="changeImage('img_analog', this.src)">
+                    <img src="AD74412R_Analog_IO.jpg" onclick="changeImage('img_analog', 'link_analog', this.src)">
+                    <img src="AD74412R_Analog_IO_1.jpeg" onclick="changeImage('img_analog', 'link_analog', this.src)">
+                    <img src="AD74412R_Analog_IO_2.jpeg" onclick="changeImage('img_analog', 'link_analog', this.src)">
+                    <img src="AD74412R_Analog_IO_3.jpeg" onclick="changeImage('img_analog', 'link_analog', this.src)">
+                    <img src="AD74412R_Analog_IO_4.jpeg" onclick="changeImage('img_analog', 'link_analog', this.src)">
+                    <img src="AD74412R_Analog_IO_5.jpeg" onclick="changeImage('img_analog', 'link_analog', this.src)">
+                    <img src="AD74412R_Analog_IO_6.jpeg" onclick="changeImage('img_analog', 'link_analog', this.src)">
+                    <img src="AD74412R_Analog_IO_7.jpeg" onclick="changeImage('img_analog', 'link_analog', this.src)">
+                    <img src="AD74412R_Analog_IO_8.jpeg" onclick="changeImage('img_analog', 'link_analog', this.src)">
                 </div>
 
                 <p>
@@ -320,8 +337,9 @@ footer {
 </footer>
 
 <script>
-function changeImage(imageId, newSrc) {
+function changeImage(imageId, linkId, newSrc) {
     document.getElementById(imageId).src = newSrc;
+    document.getElementById(linkId).href = newSrc;
 }
 </script>
 
