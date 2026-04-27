@@ -20,16 +20,21 @@ header {
     border-bottom: 1px solid #334155;
 }
 
-header img {
+header {
     width: 260px;
-    height: auto;              /* maintain full aspect ratio */
-    object-fit: contain;       /* ensures full logo is visible */
-    border-radius: 20%;
-    margin-bottom: 12px;
-    border: 2px solid #38bdf8;
-    background-color: white;
-    padding: 10px;             /* increased to create safe space */
-    box-sizing: border-box;    /* prevents padding from cutting image */
+    height: 260px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+    border-radius: 24px;
+    overflow: hidden;
+}
+
+header img {
+    width: 120%;        /* zoom in */
+    height: auto;
+    object-fit: contain;
 }
 
 header h1 {
