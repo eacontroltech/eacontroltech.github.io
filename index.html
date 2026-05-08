@@ -6,405 +6,1244 @@
 <title>EA Control Tech | Industrial Control Boards, STM32 Controllers & Modular I/O</title>
 
 <meta name="description" content="EA Control Tech designs industrial control boards, STM32 embedded controllers, digital and analog I/O boards, and automation hardware for industrial, OEM, and engineering applications.">
-
 <meta name="keywords" content="EA Control Tech, STM32 board, industrial controller, MCP23017, MCP23008, AD74412R, analog IO board, digital IO board, embedded systems, automation hardware">
-
 <meta name="robots" content="index, follow">
-
 <link rel="canonical" href="https://eacontroltech.com/">
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&family=Bebas+Neue&display=swap" rel="stylesheet">
+
 <style>
+:root {
+  --bg:        #080c10;
+  --surface:   #0d1117;
+  --surface2:  #131b24;
+  --border:    #1e2d3d;
+  --border-hi: #00d4ff;
+  --accent:    #00d4ff;
+  --accent2:   #00ff99;
+  --danger:    #ff4d6a;
+  --text:      #c9d8e8;
+  --text-dim:  #5a7080;
+  --text-hi:   #eaf4ff;
+  --mono:      'IBM Plex Mono', monospace;
+  --sans:      'IBM Plex Sans', sans-serif;
+  --display:   'Bebas Neue', sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    background-color: #0f172a;
-    color: #e2e8f0;
+  font-family: var(--sans);
+  background: var(--bg);
+  color: var(--text);
+  overflow-x: hidden;
+  line-height: 1.6;
 }
 
-header {
-    background: #020617;
-    padding: 40px 20px;
-    text-align: center;
-    border-bottom: 1px solid #334155;
+/* ─── Scanline overlay ─── */
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0,0,0,0.07) 2px,
+    rgba(0,0,0,0.07) 4px
+  );
+  pointer-events: none;
+  z-index: 1000;
 }
 
-header img { 
-    height: 300px; 
-    width: 400px; 
-    object-fit: cover; 
-    border-radius: 10%; 
-    margin-bottom: 12px; 
-    border: 2px solid #38bdf8; 
-    background-color: white; 
-    padding: 5px; 
+/* ─── Nav ─── */
+nav {
+  position: sticky; top: 0;
+  background: rgba(8,12,16,0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 56px;
+  z-index: 100;
 }
 
-header h1 {
-    margin: 0;
-    font-size: 40px;
+.nav-logo {
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--accent);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
-header p {
-    margin-top: 8px;
-    color: #94a3b8;
-    font-size: 18px;
+.nav-logo-dot {
+  width: 8px; height: 8px;
+  background: var(--accent2);
+  border-radius: 50%;
+  animation: pulse 2s ease-in-out infinite;
 }
 
-.container {
-    max-width: 1200px;
-    margin: auto;
-    padding: 30px;
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.7); }
 }
 
-.card {
-    background: #1e293b;
-    padding: 25px;
-    margin-bottom: 25px;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+.nav-links {
+  display: flex; gap: 32px;
+  list-style: none;
 }
 
-h2 {
-    margin-top: 0;
-    color: #f8fafc;
+.nav-links a {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  text-decoration: none;
+  transition: color 0.2s;
 }
 
-.products {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 20px;
+.nav-links a:hover { color: var(--accent); }
+
+.nav-badge {
+  font-family: var(--mono);
+  font-size: 10px;
+  padding: 4px 10px;
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  border-radius: 2px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
 }
 
-.product {
-    background: #0f172a;
-    padding: 18px;
-    border-radius: 10px;
-    border: 1px solid #334155;
-    transition: 0.2s;
+/* ─── Hero ─── */
+.hero {
+  position: relative;
+  padding: 100px 40px 80px;
+  overflow: hidden;
+  border-bottom: 1px solid var(--border);
 }
 
-.product:hover {
-    transform: translateY(-5px);
-    border-color: #38bdf8;
-    box-shadow: 0 6px 18px rgba(56, 189, 248, 0.18);
+.hero-grid-bg {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(0,212,255,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,212,255,0.04) 1px, transparent 1px);
+  background-size: 60px 60px;
+  mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%);
 }
 
-.product h3 {
-    margin-top: 0;
-    color: #f8fafc;
-    min-height: 48px;
+.hero-glow {
+  position: absolute;
+  top: -100px; left: 50%;
+  transform: translateX(-50%);
+  width: 800px; height: 400px;
+  background: radial-gradient(ellipse, rgba(0,212,255,0.07) 0%, transparent 70%);
+  pointer-events: none;
 }
 
-.product p {
-    color: #cbd5e1;
-    font-size: 14px;
-    line-height: 1.5;
+.hero-inner {
+  position: relative;
+  max-width: 1160px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 60px;
+}
+
+.hero-eyebrow {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.hero-eyebrow::before {
+  content: '';
+  display: block;
+  width: 32px; height: 1px;
+  background: var(--accent);
+}
+
+.hero-title {
+  font-family: var(--display);
+  font-size: clamp(64px, 8vw, 110px);
+  line-height: 0.92;
+  letter-spacing: 0.02em;
+  color: var(--text-hi);
+  margin-bottom: 28px;
+}
+
+.hero-title span {
+  display: block;
+  color: var(--accent);
+  -webkit-text-stroke: 1px var(--accent);
+  color: transparent;
+}
+
+.hero-sub {
+  font-size: 16px;
+  font-weight: 300;
+  color: var(--text-dim);
+  max-width: 480px;
+  line-height: 1.7;
+  margin-bottom: 40px;
+}
+
+.hero-actions {
+  display: flex; gap: 14px; flex-wrap: wrap;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center; gap: 8px;
+  padding: 12px 24px;
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-radius: 2px;
+  transition: all 0.2s;
+  cursor: pointer;
+  border: none;
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: var(--bg);
+}
+
+.btn-primary:hover {
+  background: #33ddff;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0,212,255,0.3);
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+}
+
+.btn-outline:hover {
+  background: rgba(0,212,255,0.08);
+  transform: translateY(-2px);
+}
+
+.hero-logo-wrap {
+  position: relative;
+}
+
+.hero-logo-wrap img {
+  width: 220px; height: 220px;
+  object-fit: contain;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: white;
+  padding: 16px;
+  filter: drop-shadow(0 0 40px rgba(0,212,255,0.15));
+}
+
+.hero-logo-corner {
+  position: absolute;
+  width: 16px; height: 16px;
+  border-color: var(--accent);
+  border-style: solid;
+}
+.hero-logo-corner.tl { top: -6px; left: -6px; border-width: 2px 0 0 2px; }
+.hero-logo-corner.tr { top: -6px; right: -6px; border-width: 2px 2px 0 0; }
+.hero-logo-corner.bl { bottom: -6px; left: -6px; border-width: 0 0 2px 2px; }
+.hero-logo-corner.br { bottom: -6px; right: -6px; border-width: 0 2px 2px 0; }
+
+/* ─── Stats bar ─── */
+.stats-bar {
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+}
+
+.stats-inner {
+  max-width: 1160px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  divide-x: 1px solid var(--border);
+}
+
+.stat {
+  padding: 28px 32px;
+  border-right: 1px solid var(--border);
+  position: relative;
+}
+
+.stat:last-child { border-right: none; }
+
+.stat-value {
+  font-family: var(--display);
+  font-size: 42px;
+  letter-spacing: 0.02em;
+  color: var(--accent);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.stat-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+/* ─── Section layout ─── */
+.section {
+  max-width: 1160px;
+  margin: auto;
+  padding: 80px 40px;
+}
+
+.section-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 48px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--border);
+}
+
+.section-label {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.section-label::before {
+  content: '//';
+  opacity: 0.5;
+}
+
+.section-title {
+  font-family: var(--display);
+  font-size: 52px;
+  letter-spacing: 0.02em;
+  color: var(--text-hi);
+  line-height: 1;
+}
+
+.section-count {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text-dim);
+  letter-spacing: 0.1em;
+}
+
+/* ─── Product grid ─── */
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+}
+
+.product-card {
+  background: var(--surface);
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  transition: background 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+
+.product-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent), var(--accent2));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+}
+
+.product-card:hover { background: var(--surface2); }
+.product-card:hover::before { transform: scaleX(1); }
+
+.product-number {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  color: var(--text-dim);
+  margin-bottom: 16px;
+}
+
+.product-img-wrap {
+  position: relative;
+  margin-bottom: 20px;
+  background: #020609;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  overflow: hidden;
 }
 
 .main-product-img {
-    width: 100%;
-    height: 180px;
-    object-fit: contain;
-    background: #020617;
-    border-radius: 8px;
-    padding: 8px;
-    margin-bottom: 10px;
-    cursor: zoom-in;
-    transition: 0.2s;
+  width: 100%;
+  height: 200px;
+  object-fit: contain;
+  padding: 12px;
+  display: block;
+  cursor: zoom-in;
+  transition: transform 0.3s ease, opacity 0.2s;
 }
 
 .main-product-img:hover {
-    opacity: 0.85;
-    transform: scale(1.01);
+  transform: scale(1.04);
+  opacity: 0.9;
 }
 
 .thumb-gallery {
-    display: flex;
-    gap: 6px;
-    flex-wrap: wrap;
-    margin-bottom: 12px;
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+  padding: 8px;
+  border-top: 1px solid var(--border);
+  background: var(--bg);
 }
 
 .thumb-gallery img {
-    width: 42px;
-    height: 42px;
-    object-fit: cover;
-    border-radius: 5px;
-    cursor: pointer;
-    border: 1px solid #334155;
-    transition: 0.2s;
-    background: #020617;
+  width: 36px; height: 36px;
+  object-fit: cover;
+  border-radius: 2px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all 0.15s;
+  background: #020609;
+  opacity: 0.65;
 }
 
-.thumb-gallery img:hover {
-    border: 1px solid #38bdf8;
-    transform: scale(1.05);
+.thumb-gallery img:hover,
+.thumb-gallery img.active {
+  border-color: var(--accent);
+  opacity: 1;
 }
 
-a.button {
-    display: inline-block;
-    margin-top: 10px;
-    padding: 9px 15px;
-    background: #38bdf8;
-    color: #020617;
-    border-radius: 6px;
-    text-decoration: none;
-    font-weight: bold;
+.product-name {
+  font-family: var(--mono);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-hi);
+  margin-bottom: 8px;
+  letter-spacing: 0.03em;
 }
 
-a.button:hover {
-    background: #7dd3fc;
+.product-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-bottom: 14px;
 }
 
-.buy-button {
-    display: inline-block;
-    margin-top: 10px;
-    margin-right: 8px;
-    padding: 9px 15px;
-    background: #22c55e;
-    color: #020617;
-    border-radius: 6px;
-    text-decoration: none;
-    font-weight: bold;
+.chip {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 2px;
+  background: rgba(0,212,255,0.08);
+  color: var(--accent);
+  border: 1px solid rgba(0,212,255,0.2);
 }
 
-.buy-button:hover {
-    background: #4ade80;
+.chip.green {
+  background: rgba(0,255,153,0.08);
+  color: var(--accent2);
+  border-color: rgba(0,255,153,0.2);
 }
 
+.product-desc {
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--text-dim);
+  line-height: 1.65;
+  margin-bottom: 24px;
+  flex: 1;
+}
+
+.product-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: auto;
+}
+
+.action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-radius: 2px;
+  transition: all 0.2s;
+  border: 1px solid;
+}
+
+.action-btn-doc {
+  color: var(--text-dim);
+  border-color: var(--border);
+  background: transparent;
+}
+
+.action-btn-doc:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+  background: rgba(0,212,255,0.05);
+}
+
+.action-btn-buy {
+  color: var(--bg);
+  border-color: var(--accent2);
+  background: var(--accent2);
+  font-weight: 700;
+}
+
+.action-btn-buy:hover {
+  background: #33ffaa;
+  border-color: #33ffaa;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(0,255,153,0.3);
+}
+
+.action-btn-soon {
+  color: var(--text-dim);
+  border-color: var(--border);
+  background: transparent;
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ─── About section ─── */
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: start;
+}
+
+.about-text {
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 1.8;
+  color: var(--text-dim);
+}
+
+.about-text p { margin-bottom: 16px; }
+.about-text p:last-child { margin-bottom: 0; }
+
+.about-text strong {
+  color: var(--text);
+  font-weight: 500;
+}
+
+.feature-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.feature-list li {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 20px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  color: var(--text);
+  transition: all 0.2s;
+}
+
+.feature-list li:hover {
+  border-color: var(--accent);
+  background: var(--surface2);
+  color: var(--accent);
+}
+
+.feature-list li::before {
+  content: '▸';
+  color: var(--accent2);
+  font-size: 10px;
+  flex-shrink: 0;
+}
+
+/* ─── Contact section ─── */
+.contact-block {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 48px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.contact-block::after {
+  content: 'CONTACT';
+  position: absolute;
+  right: -20px; top: 50%;
+  transform: translateY(-50%) rotate(90deg);
+  font-family: var(--display);
+  font-size: 120px;
+  color: rgba(0,212,255,0.03);
+  letter-spacing: 0.1em;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.contact-title {
+  font-family: var(--display);
+  font-size: 52px;
+  color: var(--text-hi);
+  letter-spacing: 0.02em;
+  line-height: 1;
+  margin-bottom: 16px;
+}
+
+.contact-sub {
+  font-size: 14px;
+  font-weight: 300;
+  color: var(--text-dim);
+  line-height: 1.7;
+}
+
+.contact-info {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.contact-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px 24px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  transition: border-color 0.2s;
+}
+
+.contact-row:hover { border-color: var(--accent); }
+
+.contact-icon {
+  font-size: 18px;
+  width: 36px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.contact-row-label {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 2px;
+}
+
+.contact-row-value {
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.contact-row-value:hover { text-decoration: underline; }
+
+/* ─── Footer ─── */
 footer {
-    text-align: center;
-    padding: 25px;
-    color: #94a3b8;
-    font-size: 14px;
+  border-top: 1px solid var(--border);
+  background: var(--surface);
 }
+
+.footer-inner {
+  max-width: 1160px;
+  margin: auto;
+  padding: 32px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.footer-brand {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: var(--text-dim);
+  text-transform: uppercase;
+}
+
+.footer-meta {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--text-dim);
+  opacity: 0.5;
+  letter-spacing: 0.08em;
+}
+
+.footer-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+.visitor-counter {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--text-dim);
+  opacity: 0.5;
+}
+
+.visitor-counter img {
+  filter: invert(0.4) sepia(1) hue-rotate(170deg);
+  height: 14px;
+}
+
+/* ─── Animations ─── */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.hero-eyebrow { animation: fadeInUp 0.5s ease 0.1s both; }
+.hero-title   { animation: fadeInUp 0.5s ease 0.2s both; }
+.hero-sub     { animation: fadeInUp 0.5s ease 0.3s both; }
+.hero-actions { animation: fadeInUp 0.5s ease 0.4s both; }
+.hero-logo-wrap { animation: fadeInUp 0.5s ease 0.3s both; }
+
+/* ─── Divider ─── */
+.section-divider {
+  border: none;
+  border-top: 1px solid var(--border);
+  max-width: 1160px;
+  margin: 0 auto;
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 768px) {
+  nav { padding: 0 20px; }
+  .nav-links { display: none; }
+  .hero { padding: 60px 20px; }
+  .hero-inner { grid-template-columns: 1fr; gap: 40px; }
+  .hero-logo-wrap { display: none; }
+  .stats-inner { grid-template-columns: repeat(2, 1fr); }
+  .section { padding: 48px 20px; }
+  .about-grid { grid-template-columns: 1fr; gap: 32px; }
+  .contact-block { grid-template-columns: 1fr; padding: 28px; }
+  .footer-inner { flex-direction: column; align-items: flex-start; }
+  .footer-right { align-items: flex-start; }
+}
+
+/* ─── Lightbox ─── */
+.lightbox {
+  display: none;
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.92);
+  z-index: 9999;
+  align-items: center;
+  justify-content: center;
+  cursor: zoom-out;
+}
+
+.lightbox.open { display: flex; }
+
+.lightbox img {
+  max-width: 90vw;
+  max-height: 88vh;
+  object-fit: contain;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+}
+
+.lightbox-close {
+  position: absolute;
+  top: 20px; right: 24px;
+  font-family: var(--mono);
+  font-size: 22px;
+  color: var(--text-dim);
+  cursor: pointer;
+  transition: color 0.2s;
+  background: none;
+  border: none;
+  line-height: 1;
+}
+
+.lightbox-close:hover { color: var(--accent); }
 </style>
 </head>
-
 <body>
 
-<header>
-    <img src="EA_Logo_8C.png" alt="EA Control Tech Logo">
-    <h1>EA Control Tech</h1>
-    <p>Industrial Control & Embedded Hardware Solutions</p>
-</header>
-
-<div class="container">
-
-    <div class="card">
-        <h2>About</h2>
-        <p>
-            EA Control Tech designs practical industrial control and embedded hardware solutions
-            for automation, prototyping, and system integration applications.
-        </p>
-        <p>
-            Our products include STM32-based controller boards, digital input/output expansion boards,
-            and analog I/O interface boards designed for reliable integration with embedded and industrial systems.
-        </p>
-    </div>
-
-    <div class="card">
-        <h2>Products & Manuals</h2>
-
-        <div class="products">
-
-            <div class="product">
-                <h3>STM32F407 CPU Board</h3>
-
-                <a id="link_stm32" href="STM32F407_CPU_Board.jpg" target="_blank">
-                    <img id="img_stm32" class="main-product-img"
-                         src="STM32F407_CPU_Board.jpg"
-                         alt="STM32F407 CPU Board">
-                </a>
-
-                <div class="thumb-gallery">
-                    <img src="STM32F407_CPU_Board.jpg" onclick="changeImage('img_stm32', 'link_stm32', this.src)">
-                    <img src="STM32F407_CPU_Board_1.jpeg" onclick="changeImage('img_stm32', 'link_stm32', this.src)">
-                    <img src="STM32F407_CPU_Board_2.jpeg" onclick="changeImage('img_stm32', 'link_stm32', this.src)">
-                    <img src="STM32F407_CPU_Board_3.jpeg" onclick="changeImage('img_stm32', 'link_stm32', this.src)">
-                    <img src="STM32F407_CPU_Board_4.jpeg" onclick="changeImage('img_stm32', 'link_stm32', this.src)">
-                    <img src="STM32F407_CPU_Board_5.jpeg" onclick="changeImage('img_stm32', 'link_stm32', this.src)">
-                    <img src="STM32F407_CPU_Board_6.jpeg" onclick="changeImage('img_stm32', 'link_stm32', this.src)">
-                    <img src="STM32F407_CPU_Board_7.jpeg" onclick="changeImage('img_stm32', 'link_stm32', this.src)">
-                    <img src="STM32F407_CPU_Board_8.jpeg" onclick="changeImage('img_stm32', 'link_stm32', this.src)">
-                    <img src="STM32F407_CPU_Board_9.jpeg" onclick="changeImage('img_stm32', 'link_stm32', this.src)">
-                </div>
-
-                <p>
-                    Industrial STM32F407 controller with 24VDC input, RS485, CAN, SPI, I2C, RTC, Flash, and microSD for embedded automation systems.
-                </p>
-
-                <a class="button" href="STM32F407_CPU_Board.pdf" target="_blank">View Manual</a>
-                <a class="button" href="STM32F407_CPU_Board_Schematic.pdf" target="_blank">View Schematic</a>
-                <a class="buy-button" href="https://www.tindie.com/products/sk_tindie/stm32f407-board-industrial-embedded-controller/" target="_blank">Buy on Tindie</a>
-                <a class="button" href="#">Amazon (Coming Soon)</a>
-            </div>
-
-            <div class="product">
-                <h3>16 DI Board (MCP23017)</h3>
-
-                <a id="link_16di" href="16_DI_MCP23017.jpeg" target="_blank">
-                    <img id="img_16di" class="main-product-img"
-                         src="16_DI_MCP23017.jpeg"
-                         alt="16 DI Board MCP23017">
-                </a>
-
-                <div class="thumb-gallery">
-                    <img src="16_DI_MCP23017.jpeg" onclick="changeImage('img_16di', 'link_16di', this.src)">
-                    <img src="16_DI_MCP23017_1.jpeg" onclick="changeImage('img_16di', 'link_16di', this.src)">
-                    <img src="16_DI_MCP23017_2.jpeg" onclick="changeImage('img_16di', 'link_16di', this.src)">
-                    <img src="16_DI_MCP23017_3.jpeg" onclick="changeImage('img_16di', 'link_16di', this.src)">
-                    <img src="16_DI_MCP23017_4.jpeg" onclick="changeImage('img_16di', 'link_16di', this.src)">
-                    <img src="16_DI_MCP23017_5.jpeg" onclick="changeImage('img_16di', 'link_16di', this.src)">
-                    <img src="16_DI_MCP23017_6.jpeg" onclick="changeImage('img_16di', 'link_16di', this.src)">
-                    <img src="16_DI_MCP23017_7.jpeg" onclick="changeImage('img_16di', 'link_16di', this.src)">
-                    <img src="16_DI_MCP23017_8.jpeg" onclick="changeImage('img_16di', 'link_16di', this.src)">
-                    <img src="16_DI_MCP23017_9.jpeg" onclick="changeImage('img_16di', 'link_16di', this.src)">
-                </div>
-
-                <p>
-                    16-channel digital input module based on MCP23017. Designed for reliable input monitoring in industrial and embedded applications.
-                </p>
-
-                <a class="button" href="16_DI_MCP23017.pdf" target="_blank">View Manual</a>
-                <a class="button" href="16_DI_MCP23017_Schematic.pdf" target="_blank">View Schematic</a>
-                <a class="buy-button" href="https://www.tindie.com/products/sk_tindie/16-channel-digital-input-board-mcp23017-i2c-gpio/" target="_blank">Buy on Tindie</a>
-                <a class="button" href="#">Amazon (Coming Soon)</a>
-            </div>
-
-            <div class="product">
-                <h3>16 DO Board (MCP23017)</h3>
-
-                <a id="link_16do" href="16_DO_MCP23017.jpeg" target="_blank">
-                    <img id="img_16do" class="main-product-img"
-                         src="16_DO_MCP23017.jpeg"
-                         alt="16 DO Board MCP23017">
-                </a>
-
-                <div class="thumb-gallery">
-                    <img src="16_DO_MCP23017.jpeg" onclick="changeImage('img_16do', 'link_16do', this.src)">
-                    <img src="16_DO_MCP23017_1.jpeg" onclick="changeImage('img_16do', 'link_16do', this.src)">
-                    <img src="16_DO_MCP23017_2.jpeg" onclick="changeImage('img_16do', 'link_16do', this.src)">
-                    <img src="16_DO_MCP23017_3.jpeg" onclick="changeImage('img_16do', 'link_16do', this.src)">
-                    <img src="16_DO_MCP23017_4.jpeg" onclick="changeImage('img_16do', 'link_16do', this.src)">
-                    <img src="16_DO_MCP23017_5.jpeg" onclick="changeImage('img_16do', 'link_16do', this.src)">
-                    <img src="16_DO_MCP23017_6.jpeg" onclick="changeImage('img_16do', 'link_16do', this.src)">
-                    <img src="16_DO_MCP23017_7.jpeg" onclick="changeImage('img_16do', 'link_16do', this.src)">
-                    <img src="16_DO_MCP23017_8.jpeg" onclick="changeImage('img_16do', 'link_16do', this.src)">
-                    <img src="16_DO_MCP23017_9.jpeg" onclick="changeImage('img_16do', 'link_16do', this.src)">
-                </div>
-
-                <p>
-                    16-channel I2C relay output module based on the MCP23017.
-                </p>
-
-                <a class="button" href="16_DO_MCP23017.pdf" target="_blank">View Manual</a>
-                <a class="button" href="16_DO_MCP23017_Schematic.pdf" target="_blank">View Schematic</a>
-                <a class="buy-button" href="https://www.tindie.com/products/sk_tindie/16-channel-digital-output-board-mcp23017-i2c-gpio/" target="_blank">Buy on Tindie</a>
-                <a class="button" href="#">Amazon (Coming Soon)</a>
-            </div>
-
-            <div class="product">
-                <h3>8 DO Board (MCP23008)</h3>
-
-                <a id="link_8do" href="8_DO_MCP23008.jpeg" target="_blank">
-                    <img id="img_8do" class="main-product-img"
-                         src="8_DO_MCP23008.jpeg"
-                         alt="8 DO Board MCP23008">
-                </a>
-
-                <div class="thumb-gallery">
-                    <img src="8_DO_MCP23008.jpeg" onclick="changeImage('img_8do', 'link_8do', this.src)">
-                    <img src="8_DO_MCP23008_1.jpeg" onclick="changeImage('img_8do', 'link_8do', this.src)">
-                    <img src="8_DO_MCP23008_2.jpeg" onclick="changeImage('img_8do', 'link_8do', this.src)">
-                    <img src="8_DO_MCP23008_3.jpeg" onclick="changeImage('img_8do', 'link_8do', this.src)">
-                    <img src="8_DO_MCP23008_4.jpeg" onclick="changeImage('img_8do', 'link_8do', this.src)">
-                    <img src="8_DO_MCP23008_5.jpeg" onclick="changeImage('img_8do', 'link_8do', this.src)">
-                    <img src="8_DO_MCP23008_6.jpeg" onclick="changeImage('img_8do', 'link_8do', this.src)">
-                    <img src="8_DO_MCP23008_7.jpeg" onclick="changeImage('img_8do', 'link_8do', this.src)">
-                    <img src="8_DO_MCP23008_8.jpeg" onclick="changeImage('img_8do', 'link_8do', this.src)">
-                    <img src="8_DO_MCP23008_9.jpeg" onclick="changeImage('img_8do', 'link_8do', this.src)">
-                </div>
-
-                <p>
-                    8-channel I2C relay output module based on the MCP23008.
-                </p>
-
-                <a class="button" href="8_DO_MCP23008.pdf" target="_blank">View Manual</a>
-                <a class="button" href="8_DO_MCP23008_Schematic.pdf" target="_blank">View Schematic</a>
-                <a class="buy-button" href="https://www.tindie.com/products/sk_tindie/8-channel-digital-output-board-mcp23008-i2c-gpio/" target="_blank">Buy on Tindie</a>
-                <a class="button" href="#">Amazon (Coming Soon)</a>
-            </div>
-
-            <div class="product">
-                <h3>4 Channel Analog I/O Board (AD74412R)</h3>
-
-                <a id="link_analog" href="AD74412R_Analog_IO.jpg" target="_blank">
-                    <img id="img_analog" class="main-product-img"
-                         src="AD74412R_Analog_IO.jpg"
-                         alt="AD74412R Analog IO Board">
-                </a>
-
-                <div class="thumb-gallery">
-                    <img src="AD74412R_Analog_IO.jpg" onclick="changeImage('img_analog', 'link_analog', this.src)">
-                    <img src="AD74412R_Analog_IO_1.jpeg" onclick="changeImage('img_analog', 'link_analog', this.src)">
-                    <img src="AD74412R_Analog_IO_2.jpeg" onclick="changeImage('img_analog', 'link_analog', this.src)">
-                    <img src="AD74412R_Analog_IO_3.jpeg" onclick="changeImage('img_analog', 'link_analog', this.src)">
-                    <img src="AD74412R_Analog_IO_4.jpeg" onclick="changeImage('img_analog', 'link_analog', this.src)">
-                    <img src="AD74412R_Analog_IO_5.jpeg" onclick="changeImage('img_analog', 'link_analog', this.src)">
-                    <img src="AD74412R_Analog_IO_6.jpeg" onclick="changeImage('img_analog', 'link_analog', this.src)">
-                    <img src="AD74412R_Analog_IO_7.jpeg" onclick="changeImage('img_analog', 'link_analog', this.src)">
-                    <img src="AD74412R_Analog_IO_8.jpeg" onclick="changeImage('img_analog', 'link_analog', this.src)">
-                    <img src="AD74412R_Analog_IO_9.jpeg" onclick="changeImage('img_analog', 'link_analog', this.src)">
-                </div>
-
-                <p>
-                    4-CH AD74412R analog I/O: 0–10V/0–11V, 0–25mA/4–20mA, and 2-wire PT100/PT1000 RTD, software-configurable.
-                </p>
-
-                <a class="button" href="AD74412R_Analog_IO.pdf" target="_blank">View Manual</a>
-                <a class="button" href="AD74412R_Analog_IO_Schematic.pdf" target="_blank">View Schematic</a>
-                <a class="buy-button" href="https://www.tindie.com/products/sk_tindie/4-channel-industrial-analog-io-board-ad74412r/" target="_blank">Buy on Tindie</a>
-                <a class="button" href="#">Amazon (Coming Soon)</a>
-            </div>
-
-        </div>
-    </div>
-
-    <div class="card">
-        <h2>Contact</h2>
-        <p>
-            For questions, documentation support, or product information, contact:
-        </p>
-        <p>
-            <strong>Email:</strong> contact@eacontroltech.com
-        </p>
-    </div>
-
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
+  <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+  <img id="lightbox-img" src="" alt="Product view">
 </div>
 
+<!-- Nav -->
+<nav>
+  <div class="nav-logo">
+    <div class="nav-logo-dot"></div>
+    EA Control Tech
+  </div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#products">Products</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div class="nav-badge">Industrial Grade</div>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-grid-bg"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-inner">
+    <div>
+      <div class="hero-eyebrow">Embedded &amp; Industrial Hardware</div>
+      <h1 class="hero-title">
+        EA CONTROL<br>
+        <span>TECH</span>
+      </h1>
+      <p class="hero-sub">
+        Industrial control boards, STM32 embedded controllers, and modular I/O hardware designed for demanding automation, OEM, and engineering environments.
+      </p>
+      <div class="hero-actions">
+        <a href="#products" class="btn btn-primary">View Products</a>
+        <a href="#contact" class="btn btn-outline">Contact Us</a>
+      </div>
+    </div>
+    <div class="hero-logo-wrap">
+      <div class="hero-logo-corner tl"></div>
+      <div class="hero-logo-corner tr"></div>
+      <div class="hero-logo-corner bl"></div>
+      <div class="hero-logo-corner br"></div>
+      <img src="EA_Logo_8C.png" alt="EA Control Tech Logo">
+    </div>
+  </div>
+</section>
+
+<!-- Stats bar -->
+<div class="stats-bar">
+  <div class="stats-inner">
+    <div class="stat">
+      <div class="stat-value">5</div>
+      <div class="stat-label">Product Lines</div>
+    </div>
+    <div class="stat">
+      <div class="stat-value">24V</div>
+      <div class="stat-label">Industrial Input</div>
+    </div>
+    <div class="stat">
+      <div class="stat-value">I²C</div>
+      <div class="stat-label">Modular Interface</div>
+    </div>
+    <div class="stat">
+      <div class="stat-value">4–20</div>
+      <div class="stat-label">mA Analog Support</div>
+    </div>
+  </div>
+</div>
+
+<!-- About -->
+<div id="about">
+  <div class="section">
+    <div class="section-header">
+      <div>
+        <div class="section-label">Company</div>
+        <h2 class="section-title">ABOUT</h2>
+      </div>
+    </div>
+    <div class="about-grid">
+      <div class="about-text">
+        <p>
+          <strong>EA Control Tech</strong> designs practical industrial control and embedded hardware solutions for automation, prototyping, and system integration applications.
+        </p>
+        <p>
+          Our products are engineered to integrate reliably into demanding environments — from factory floors to OEM equipment — with a focus on well-documented, modular designs that engineers can trust.
+        </p>
+        <p>
+          Every board is supported by thorough documentation and schematics, making integration and customization straightforward for embedded and industrial engineers.
+        </p>
+      </div>
+      <ul class="feature-list">
+        <li>STM32-based embedded controllers</li>
+        <li>24VDC industrial power inputs</li>
+        <li>RS485, CAN, SPI, I²C communication</li>
+        <li>Digital I/O expansion via MCP23017 / MCP23008</li>
+        <li>Analog I/O with 4–20mA, 0–10V &amp; RTD support</li>
+        <li>Full schematics &amp; manuals provided</li>
+        <li>Available on Tindie</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<hr class="section-divider">
+
+<!-- Products -->
+<div id="products">
+  <div class="section">
+    <div class="section-header">
+      <div>
+        <div class="section-label">Catalog</div>
+        <h2 class="section-title">PRODUCTS</h2>
+      </div>
+      <div class="section-count">5 modules available</div>
+    </div>
+
+    <div class="products-grid">
+
+      <!-- STM32F407 -->
+      <div class="product-card">
+        <div class="product-number">PROD-001</div>
+        <div class="product-img-wrap">
+          <img id="img_stm32" class="main-product-img"
+               src="STM32F407_CPU_Board.jpg"
+               alt="STM32F407 CPU Board"
+               onclick="openLightbox(this.src)">
+          <div class="thumb-gallery">
+            <img src="STM32F407_CPU_Board.jpg"   onclick="changeImage('img_stm32', this)">
+            <img src="STM32F407_CPU_Board_1.jpeg" onclick="changeImage('img_stm32', this)">
+            <img src="STM32F407_CPU_Board_2.jpeg" onclick="changeImage('img_stm32', this)">
+            <img src="STM32F407_CPU_Board_3.jpeg" onclick="changeImage('img_stm32', this)">
+            <img src="STM32F407_CPU_Board_4.jpeg" onclick="changeImage('img_stm32', this)">
+            <img src="STM32F407_CPU_Board_5.jpeg" onclick="changeImage('img_stm32', this)">
+            <img src="STM32F407_CPU_Board_6.jpeg" onclick="changeImage('img_stm32', this)">
+            <img src="STM32F407_CPU_Board_7.jpeg" onclick="changeImage('img_stm32', this)">
+            <img src="STM32F407_CPU_Board_8.jpeg" onclick="changeImage('img_stm32', this)">
+            <img src="STM32F407_CPU_Board_9.jpeg" onclick="changeImage('img_stm32', this)">
+          </div>
+        </div>
+        <div class="product-chips">
+          <span class="chip">STM32F407</span>
+          <span class="chip">RS485</span>
+          <span class="chip">CAN</span>
+          <span class="chip">24VDC</span>
+          <span class="chip">RTC</span>
+        </div>
+        <div class="product-name">STM32F407 CPU Board</div>
+        <p class="product-desc">
+          Industrial STM32F407 controller with 24VDC input, RS485, CAN, SPI, I²C, RTC, Flash, and microSD. Designed for embedded automation systems requiring robust, well-connected processing.
+        </p>
+        <div class="product-actions">
+          <a class="action-btn action-btn-doc" href="STM32F407_CPU_Board.pdf" target="_blank">📄 Manual</a>
+          <a class="action-btn action-btn-doc" href="STM32F407_CPU_Board_Schematic.pdf" target="_blank">📐 Schematic</a>
+          <a class="action-btn action-btn-buy" href="https://www.tindie.com/products/sk_tindie/stm32f407-board-industrial-embedded-controller/" target="_blank">Buy on Tindie ↗</a>
+          <span class="action-btn action-btn-soon">Amazon Soon</span>
+        </div>
+      </div>
+
+      <!-- 16 DI -->
+      <div class="product-card">
+        <div class="product-number">PROD-002</div>
+        <div class="product-img-wrap">
+          <img id="img_16di" class="main-product-img"
+               src="16_DI_MCP23017.jpeg"
+               alt="16 DI Board MCP23017"
+               onclick="openLightbox(this.src)">
+          <div class="thumb-gallery">
+            <img src="16_DI_MCP23017.jpeg"   onclick="changeImage('img_16di', this)">
+            <img src="16_DI_MCP23017_1.jpeg" onclick="changeImage('img_16di', this)">
+            <img src="16_DI_MCP23017_2.jpeg" onclick="changeImage('img_16di', this)">
+            <img src="16_DI_MCP23017_3.jpeg" onclick="changeImage('img_16di', this)">
+            <img src="16_DI_MCP23017_4.jpeg" onclick="changeImage('img_16di', this)">
+            <img src="16_DI_MCP23017_5.jpeg" onclick="changeImage('img_16di', this)">
+            <img src="16_DI_MCP23017_6.jpeg" onclick="changeImage('img_16di', this)">
+            <img src="16_DI_MCP23017_7.jpeg" onclick="changeImage('img_16di', this)">
+            <img src="16_DI_MCP23017_8.jpeg" onclick="changeImage('img_16di', this)">
+            <img src="16_DI_MCP23017_9.jpeg" onclick="changeImage('img_16di', this)">
+          </div>
+        </div>
+        <div class="product-chips">
+          <span class="chip">MCP23017</span>
+          <span class="chip">I²C</span>
+          <span class="chip">16-CH</span>
+          <span class="chip green">Digital Input</span>
+        </div>
+        <div class="product-name">16-Channel Digital Input Board</div>
+        <p class="product-desc">
+          16-channel digital input module based on MCP23017. Designed for reliable input monitoring in industrial and embedded applications over a simple I²C interface.
+        </p>
+        <div class="product-actions">
+          <a class="action-btn action-btn-doc" href="16_DI_MCP23017.pdf" target="_blank">📄 Manual</a>
+          <a class="action-btn action-btn-doc" href="16_DI_MCP23017_Schematic.pdf" target="_blank">📐 Schematic</a>
+          <a class="action-btn action-btn-buy" href="https://www.tindie.com/products/sk_tindie/16-channel-digital-input-board-mcp23017-i2c-gpio/" target="_blank">Buy on Tindie ↗</a>
+          <span class="action-btn action-btn-soon">Amazon Soon</span>
+        </div>
+      </div>
+
+      <!-- 16 DO -->
+      <div class="product-card">
+        <div class="product-number">PROD-003</div>
+        <div class="product-img-wrap">
+          <img id="img_16do" class="main-product-img"
+               src="16_DO_MCP23017.jpeg"
+               alt="16 DO Board MCP23017"
+               onclick="openLightbox(this.src)">
+          <div class="thumb-gallery">
+            <img src="16_DO_MCP23017.jpeg"   onclick="changeImage('img_16do', this)">
+            <img src="16_DO_MCP23017_1.jpeg" onclick="changeImage('img_16do', this)">
+            <img src="16_DO_MCP23017_2.jpeg" onclick="changeImage('img_16do', this)">
+            <img src="16_DO_MCP23017_3.jpeg" onclick="changeImage('img_16do', this)">
+            <img src="16_DO_MCP23017_4.jpeg" onclick="changeImage('img_16do', this)">
+            <img src="16_DO_MCP23017_5.jpeg" onclick="changeImage('img_16do', this)">
+            <img src="16_DO_MCP23017_6.jpeg" onclick="changeImage('img_16do', this)">
+            <img src="16_DO_MCP23017_7.jpeg" onclick="changeImage('img_16do', this)">
+            <img src="16_DO_MCP23017_8.jpeg" onclick="changeImage('img_16do', this)">
+            <img src="16_DO_MCP23017_9.jpeg" onclick="changeImage('img_16do', this)">
+          </div>
+        </div>
+        <div class="product-chips">
+          <span class="chip">MCP23017</span>
+          <span class="chip">I²C</span>
+          <span class="chip">16-CH</span>
+          <span class="chip green">Relay Output</span>
+        </div>
+        <div class="product-name">16-Channel Digital Output Board</div>
+        <p class="product-desc">
+          16-channel I²C relay output module based on the MCP23017. Compact, daisy-chainable design for controlling multiple relay loads from a single I²C bus.
+        </p>
+        <div class="product-actions">
+          <a class="action-btn action-btn-doc" href="16_DO_MCP23017.pdf" target="_blank">📄 Manual</a>
+          <a class="action-btn action-btn-doc" href="16_DO_MCP23017_Schematic.pdf" target="_blank">📐 Schematic</a>
+          <a class="action-btn action-btn-buy" href="https://www.tindie.com/products/sk_tindie/16-channel-digital-output-board-mcp23017-i2c-gpio/" target="_blank">Buy on Tindie ↗</a>
+          <span class="action-btn action-btn-soon">Amazon Soon</span>
+        </div>
+      </div>
+
+      <!-- 8 DO -->
+      <div class="product-card">
+        <div class="product-number">PROD-004</div>
+        <div class="product-img-wrap">
+          <img id="img_8do" class="main-product-img"
+               src="8_DO_MCP23008.jpeg"
+               alt="8 DO Board MCP23008"
+               onclick="openLightbox(this.src)">
+          <div class="thumb-gallery">
+            <img src="8_DO_MCP23008.jpeg"   onclick="changeImage('img_8do', this)">
+            <img src="8_DO_MCP23008_1.jpeg" onclick="changeImage('img_8do', this)">
+            <img src="8_DO_MCP23008_2.jpeg" onclick="changeImage('img_8do', this)">
+            <img src="8_DO_MCP23008_3.jpeg" onclick="changeImage('img_8do', this)">
+            <img src="8_DO_MCP23008_4.jpeg" onclick="changeImage('img_8do', this)">
+            <img src="8_DO_MCP23008_5.jpeg" onclick="changeImage('img_8do', this)">
+            <img src="8_DO_MCP23008_6.jpeg" onclick="changeImage('img_8do', this)">
+            <img src="8_DO_MCP23008_7.jpeg" onclick="changeImage('img_8do', this)">
+            <img src="8_DO_MCP23008_8.jpeg" onclick="changeImage('img_8do', this)">
+            <img src="8_DO_MCP23008_9.jpeg" onclick="changeImage('img_8do', this)">
+          </div>
+        </div>
+        <div class="product-chips">
+          <span class="chip">MCP23008</span>
+          <span class="chip">I²C</span>
+          <span class="chip">8-CH</span>
+          <span class="chip green">Relay Output</span>
+        </div>
+        <div class="product-name">8-Channel Digital Output Board</div>
+        <p class="product-desc">
+          8-channel I²C relay output module based on the MCP23008. A compact solution for applications needing fewer channels with the same reliable I²C interface.
+        </p>
+        <div class="product-actions">
+          <a class="action-btn action-btn-doc" href="8_DO_MCP23008.pdf" target="_blank">📄 Manual</a>
+          <a class="action-btn action-btn-doc" href="8_DO_MCP23008_Schematic.pdf" target="_blank">📐 Schematic</a>
+          <a class="action-btn action-btn-buy" href="https://www.tindie.com/products/sk_tindie/8-channel-digital-output-board-mcp23008-i2c-gpio/" target="_blank">Buy on Tindie ↗</a>
+          <span class="action-btn action-btn-soon">Amazon Soon</span>
+        </div>
+      </div>
+
+      <!-- Analog IO -->
+      <div class="product-card">
+        <div class="product-number">PROD-005</div>
+        <div class="product-img-wrap">
+          <img id="img_analog" class="main-product-img"
+               src="AD74412R_Analog_IO.jpg"
+               alt="AD74412R Analog IO Board"
+               onclick="openLightbox(this.src)">
+          <div class="thumb-gallery">
+            <img src="AD74412R_Analog_IO.jpg"   onclick="changeImage('img_analog', this)">
+            <img src="AD74412R_Analog_IO_1.jpeg" onclick="changeImage('img_analog', this)">
+            <img src="AD74412R_Analog_IO_2.jpeg" onclick="changeImage('img_analog', this)">
+            <img src="AD74412R_Analog_IO_3.jpeg" onclick="changeImage('img_analog', this)">
+            <img src="AD74412R_Analog_IO_4.jpeg" onclick="changeImage('img_analog', this)">
+            <img src="AD74412R_Analog_IO_5.jpeg" onclick="changeImage('img_analog', this)">
+            <img src="AD74412R_Analog_IO_6.jpeg" onclick="changeImage('img_analog', this)">
+            <img src="AD74412R_Analog_IO_7.jpeg" onclick="changeImage('img_analog', this)">
+            <img src="AD74412R_Analog_IO_8.jpeg" onclick="changeImage('img_analog', this)">
+            <img src="AD74412R_Analog_IO_9.jpeg" onclick="changeImage('img_analog', this)">
+          </div>
+        </div>
+        <div class="product-chips">
+          <span class="chip">AD74412R</span>
+          <span class="chip">4-CH</span>
+          <span class="chip">4–20mA</span>
+          <span class="chip">PT100/PT1000</span>
+          <span class="chip green">Analog I/O</span>
+        </div>
+        <div class="product-name">4-Channel Analog I/O Board</div>
+        <p class="product-desc">
+          4-channel AD74412R analog I/O with software-configurable modes: 0–10V / 0–11V voltage, 0–25mA / 4–20mA current loop, and 2-wire PT100/PT1000 RTD temperature measurement.
+        </p>
+        <div class="product-actions">
+          <a class="action-btn action-btn-doc" href="AD74412R_Analog_IO.pdf" target="_blank">📄 Manual</a>
+          <a class="action-btn action-btn-doc" href="AD74412R_Analog_IO_Schematic.pdf" target="_blank">📐 Schematic</a>
+          <a class="action-btn action-btn-buy" href="https://www.tindie.com/products/sk_tindie/4-channel-industrial-analog-io-board-ad74412r/" target="_blank">Buy on Tindie ↗</a>
+          <span class="action-btn action-btn-soon">Amazon Soon</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<hr class="section-divider">
+
+<!-- Contact -->
+<div id="contact">
+  <div class="section">
+    <div class="contact-block">
+      <div>
+        <h2 class="contact-title">GET IN TOUCH</h2>
+        <p class="contact-sub">
+          For product questions, documentation support, bulk orders, or custom engineering inquiries, reach out directly. We're happy to help.
+        </p>
+      </div>
+      <div class="contact-info">
+        <div class="contact-row">
+          <div class="contact-icon">✉</div>
+          <div>
+            <div class="contact-row-label">Email</div>
+            <a href="mailto:contact@eacontroltech.com" class="contact-row-value">contact@eacontroltech.com</a>
+          </div>
+        </div>
+        <div class="contact-row">
+          <div class="contact-icon">🛒</div>
+          <div>
+            <div class="contact-row-label">Storefront</div>
+            <a href="https://www.tindie.com/stores/sk_tindie/" target="_blank" class="contact-row-value">tindie.com/stores/sk_tindie</a>
+          </div>
+        </div>
+        <div class="contact-row">
+          <div class="contact-icon">🌐</div>
+          <div>
+            <div class="contact-row-label">Website</div>
+            <a href="https://eacontroltech.com" class="contact-row-value">eacontroltech.com</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
 <footer>
-    <p id="lastUpdate"></p>
-
-    <p>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand">EA Control Tech</div>
+    </div>
+    <div class="footer-right">
+      <div class="visitor-counter">
         Visitors:
-        <a href="https://www.hitwebcounter.com/character-counter" target="_blank">
-        <img src="https://hitwebcounter.com/counter/counter.php?page=21492364&style=0009&nbdigits=9&type=page&initCount=0" style="border:0;" />
+        <a href="https://www.hitwebcounter.com" target="_blank">
+          <img src="https://hitwebcounter.com/counter/counter.php?page=21492364&style=0009&nbdigits=9&type=page&initCount=0" alt="Visitor counter">
         </a>
-    </p>
-
-    <p>© 2026 EA Control Tech. All rights reserved.</p>
+      </div>
+      <div class="footer-meta" id="lastUpdate"></div>
+      <div class="footer-meta">© 2026 EA Control Tech. All rights reserved.</div>
+    </div>
+  </div>
 </footer>
 
 <script>
-function changeImage(imageId, linkId, newSrc) {
-    document.getElementById(imageId).src = newSrc;
-    document.getElementById(linkId).href = newSrc;
+function changeImage(imageId, thumbEl) {
+  const mainImg = document.getElementById(imageId);
+  mainImg.src = thumbEl.src;
+  // Update active thumb styling
+  const gallery = thumbEl.closest('.thumb-gallery');
+  gallery.querySelectorAll('img').forEach(t => t.classList.remove('active'));
+  thumbEl.classList.add('active');
 }
 
-document.getElementById("lastUpdate").innerText =
-    "Last updated: " + document.lastModified;
-</script>
+function openLightbox(src) {
+  document.getElementById('lightbox-img').src = src;
+  document.getElementById('lightbox').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
 
+function closeLightbox(e) {
+  if (e && e.target !== document.getElementById('lightbox') && e.target.tagName !== 'BUTTON') return;
+  document.getElementById('lightbox').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeLightbox({target: document.getElementById('lightbox')});
+});
+
+// Set first thumb as active on load
+document.querySelectorAll('.thumb-gallery').forEach(g => {
+  const first = g.querySelector('img');
+  if (first) first.classList.add('active');
+});
+
+document.getElementById("lastUpdate").innerText = "Last updated: " + document.lastModified;
+</script>
 </body>
 </html>
